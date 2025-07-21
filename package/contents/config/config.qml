@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
+import QtQuick 2.15
 
 import org.kde.plasma.configuration 2.0
 
 ConfigModel {
     ConfigCategory {
          name: i18n("Icon")
-         icon: plasmoid.file("images", "luna-gskbyte14.svg");
+         icon: "weather-clear-night-symbolic"
          source: "cfgIcon.qml"
     }
     ConfigCategory {
@@ -32,12 +32,12 @@ ConfigModel {
     }
     ConfigCategory {
         name: i18n("Colors")
-        icon: "color-picker.png"
+        icon: "color-picker"
         source: "cfgColors.qml"
     }
     ConfigCategory {
         name: i18n("Credits")
-        icon: "help-about.png"
+        icon: "help-about"
         source: "cfgAbout.qml"
     }
 }

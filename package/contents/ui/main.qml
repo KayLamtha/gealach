@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.7
-import QtQuick.Layouts 1.3 as QtLayouts
-import QtQuick.Controls 1.4 as QtControls
-
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.plasmoid 2.0
+import QtQuick 2.15
+import QtQuick.Layouts 1.15 as QtLayouts
+import QtQuick.Controls 2.15 as QtControls
+import org.kde.kirigami 2.20 as Kirigami
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.components 3.0 as PlasmaComponents
+import org.kde.plasma.plasmoid
 
 import "../code/phases.js" as Phases
 import "../code/lunacalc.js" as LunaCalc
 
 
-Item {
+PlasmoidItem {
     id: root
     //** outsourcing function as a workaround for bug#3 (https://github.com/Koffeinfriedhof/gealach/issues/3)**//
     function getCurrentPhase() // this function assumes that today is between phases[0] (last new moon) and phases[4] (next new moon)
@@ -123,32 +123,28 @@ Item {
     }
 
     /** PLASMOID DETAILS **/
-    Plasmoid.backgroundHints: showBackground ? "DefaultBackground" : "NoBackground"
-    Plasmoid.preferredRepresentation: Plasmoid.compactRepresentation
+    //backgroundHints: showBackground ? "DefaultBackground" : "NoBackground"
+    preferredRepresentation: compactRepresentation
 
-    Plasmoid.toolTipMainText: currentPhase.text
-    Plasmoid.toolTipSubText: currentPhase.subText
+    toolTipMainText: currentPhase.text
+    toolTipSubText: currentPhase.subText
 
     /** COMPACT **/
-    Plasmoid.compactRepresentation: Component {
+    compactRepresentation: Component {
         MouseArea {
             id: compactRoot
 
-            onClicked: plasmoid.expanded = !plasmoid.expanded
+            onClicked: root.expanded = !root.expanded
 
-            PlasmaCore.Svg {
-                id: lunaSvg
-                imagePath: plasmoid.file("images", "luna-gskbyte" + root.currentPhase.number + ".svg");
-            }
-
-            PlasmaCore.SvgItem {
+            Image {
                 id: lunaSvgItem
+                source: (plasmoid.packagePath ? plasmoid.packagePath + "/images/luna-gskbyte" + root.currentPhase.number + ".svg"
+                            : "../images/luna-gskbyte" + root.currentPhase.number + ".svg")
 
                 anchors.fill: parent
                 height: 100
                 width: 100
 
-                svg: lunaSvg
                 // deal with northern <-> southern hemisphere
                 transformOrigin: Item.Center
                 rotation: hemisphere  ? 0 : 180
@@ -157,10 +153,10 @@ Item {
     }
 
     /** FULL **/
-    Plasmoid.fullRepresentation: Rectangle {
+    fullRepresentation: Rectangle {
         id: iAmJustHereForCustomBackgroundColor
-        QtLayouts.Layout.preferredWidth: fullRoot.QtLayouts.Layout.minimumWidth + units.smallSpacing
-        QtLayouts.Layout.preferredHeight: fullRoot.QtLayouts.Layout.minimumHeight + units.smallSpacing
+        QtLayouts.Layout.preferredWidth: fullRoot.QtLayouts.Layout.minimumWidth + Kirigami.Units.smallSpacing
+        QtLayouts.Layout.preferredHeight: fullRoot.QtLayouts.Layout.minimumHeight + Kirigami.Units.smallSpacing
         color: backgroundColor
         PhasesPopup{
             id: fullRoot

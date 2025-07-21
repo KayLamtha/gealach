@@ -16,9 +16,9 @@
  */
 
 import QtQuick 2.7
-import QtQuick.Layouts 1.3 as QtLayouts
-import QtQuick.Controls 1.4 as QtControls
-
+import QtQuick.Layouts 1.15 as QtLayouts
+import QtQuick.Controls 2.15 as QtControls
+import org.kde.kirigami 2.20 as Kirigami
 import org.kde.plasma.core 2.0 as PlasmaCore
 
 Item {
@@ -26,7 +26,7 @@ Item {
     property alias cfg_dateFormatString: dFS.text
     property alias cfg_buttonTextVisible: btv.checked
 
-    property real itemSpacing: units.largeSpacing
+    property real itemSpacing: Kirigami.Units.largeSpacing
 
     QtLayouts.ColumnLayout {
         QtLayouts.Layout.fillWidth: true
@@ -56,7 +56,7 @@ Item {
         }
         Row {
             spacing: itemSpacing
-            visible: limo.get(dF.currentIndex).value==99
+            visible: dF.currentIndex >= 0 && dF.currentIndex < limo.count && limo.get(dF.currentIndex).value == 99
             QtLayouts.GridLayout {
                 columns: 2
                 QtControls.Label { text: i18n("Custom Date Format: "); height: dFS.height }
@@ -77,6 +77,9 @@ Item {
                 QtControls.Label {
                     id: txt
                     text: "<a href=\"http://doc.qt.io/qt-5/qml-qtqml-date.html#details\">Date: Expression / Output</a>"
+                    onLinkActivated: Qt.openUrlExternally(link)
+                    onLinkHovered: linker.text = link
+
                     MouseArea {
                         id: txtMA
                         anchors.fill: parent
@@ -86,8 +89,8 @@ Item {
                 QtLayouts.RowLayout {
                     QtLayouts.Layout.columnSpan: 2
                     QtLayouts.Layout.fillWidth: true
-                    PlasmaCore.IconItem {
-                        source: "internet-web-browser.png"
+                    Image {
+                        source: "image://icon/internet-web-browser"
                         visible: linker.text.length
                     }
                     QtControls.Label {
@@ -95,12 +98,6 @@ Item {
                         id: linker
                         wrapMode: Text.WordWrap
                     }
-                }
-                states: State {
-                    name: "cursor"; when: txt.hoveredLink.length > 0
-                    PropertyChanges { target: txtMA; cursorShape: Qt.PointingHandCursor; }
-                    PropertyChanges { target: txtMA; onClicked: Qt.openUrlExternally(txt.hoveredLink) }
-                    PropertyChanges { target: linker; text: txt.hoveredLink }
                 }
             }
         }

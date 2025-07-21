@@ -16,9 +16,10 @@
  */
 
 import QtQuick 2.7
-import QtQuick.Layouts 1.3 as QtLayouts
-import QtQuick.Controls 1.4 as QtControls
+import QtQuick.Layouts 1.15 as QtLayouts
+import QtQuick.Controls 2.15 as QtControls
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.kirigami 2.20 as Kirigami
 
 Item {
     id: root
@@ -26,7 +27,7 @@ Item {
     property alias cfg_hemisphere: northern.checked
     property alias cfg_updateInterval: ival.interval
 
-    property real itemSpacing: units.largeSpacing
+    property real itemSpacing: Kirigami.Units.largeSpacing
 
     QtLayouts.ColumnLayout {
         spacing: itemSpacing
@@ -35,16 +36,17 @@ Item {
 
             QtLayouts.RowLayout {
                 spacing: itemSpacing
-                QtControls.ExclusiveGroup { id: hemisphereGroup }
+                QtControls.ButtonGroup { id: hemisphereGroup }
+
                 QtControls.RadioButton {
                     id: northern
                     text: i18n("Northern")
-                    exclusiveGroup: hemisphereGroup
+                    QtControls.ButtonGroup.group: hemisphereGroup
                 }
                 QtControls.RadioButton {
                     id: southern
                     text: i18n("Southern")
-                    exclusiveGroup: hemisphereGroup
+                    QtControls.ButtonGroup.group: hemisphereGroup
                 }
             }
         }
@@ -56,9 +58,8 @@ Item {
                 id: ival
                 property int interval: 0
                 value: 60
-                decimals: 0
-                minimumValue: 1
-                suffix: i18n(" minutes")
+                from: 1
+                textFromValue: function(value, locale) { return value + " " + i18n("minutes"); }
                 onValueChanged: interval=value*60*1000
             }
         }

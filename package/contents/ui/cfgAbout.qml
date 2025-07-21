@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.7
-import QtQuick.Layouts 1.3 as QtLayouts
-import QtQuick.Controls 1.4 as QtControls
-
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick 2.15
+import QtQuick.Layouts 1.15 as QtLayouts
+import QtQuick.Controls 2.15 as QtControls
+import org.kde.plasma.core as PlasmaCore
 
 Item {
     Text {
@@ -28,6 +27,8 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         wrapMode: Text.WordWrap
+        onLinkActivated: Qt.openUrlExternally(link)
+        onLinkHovered: linker.text = link
 
         MouseArea {
             id: txtMA
@@ -40,8 +41,8 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        PlasmaCore.IconItem {
-            source: linker.text.substr(0,7) == "http://" ? "internet-web-browser.png" : "mail-message-new.png"
+        Image {
+            source: linker.text.substr(0,7) == "http://" ? "image://icon/internet-web-browser" : "image://icon/mail-message-new"
             visible: linker.text.length
         }
         QtControls.Label {
@@ -49,11 +50,5 @@ Item {
             id: linker
             wrapMode: Text.WordWrap
         }
-    }
-    states: State {
-        name: "cursor"; when: txt.hoveredLink.length > 0
-        PropertyChanges { target: txtMA; cursorShape: Qt.PointingHandCursor; }
-        PropertyChanges { target: txtMA; onClicked: Qt.openUrlExternally(txt.hoveredLink) }
-        PropertyChanges { target: linker; text: txt.hoveredLink}
     }
 }

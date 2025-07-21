@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.7
-import QtQuick.Dialogs 1.0
-import QtQuick.Layouts 1.3 as QtLayouts
-import QtQuick.Controls 1.4 as QtControls
-
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick 2.15
+import QtQuick.Dialogs
+import QtQuick.Layouts 1.15 as QtLayouts
+import QtQuick.Controls 2.15 as QtControls
+import org.kde.kirigami 2.20 as Kirigami
+import org.kde.plasma.core as PlasmaCore
 
 Item {
     id: root
@@ -52,7 +52,7 @@ Item {
             Component.onCompleted: text=cfg_primaryFontColor
         }
         QtControls.Button {
-            iconName: "color-picker.png"
+            icon.name: "color-picker.png"
             onClicked: {
                 colorDialog.current=_priField
                 colorDialog.name=_pri.text
@@ -61,7 +61,6 @@ Item {
             }
         }
 
-
         QtControls.Label { text: i18n("Secondary Font Color")}
         QtControls.TextField {
             id: _secField
@@ -69,7 +68,7 @@ Item {
             Component.onCompleted: text=cfg_secondaryFontColor
         }
         QtControls.Button {
-            iconName: "color-picker.png"
+            icon.name: "color-picker"
             onClicked: {
                 colorDialog.current=_secField
                 colorDialog.name=_sec.text
@@ -85,7 +84,7 @@ Item {
             Component.onCompleted: text=cfg_backgroundColor
         }
         QtControls.Button {
-            iconName: "color-picker.png"
+            icon.name: "color-picker"
             onClicked: {
                 colorDialog.current=_bgcField
                 colorDialog.name=_bgc.text
@@ -98,7 +97,7 @@ Item {
         Rectangle {
             id: _preview
             height: _pri.height*3
-            width: _pri.width+_sec.width+units.smallSpacing*2
+            width: _pri.width+_sec.width+Kirigami.Units.smallSpacing*2
             QtLayouts.Layout.columnSpan: 3
 
             Column {
@@ -131,38 +130,34 @@ Item {
 
     }
 
-        Text {
-            visible: bt.checked
-            id: txt
-            anchors.top: coll.bottom
-            width: parent.width*0.9
+    Text {
+        visible: bt.checked
+        id: txt
+        anchors.top: coll.bottom
+        width: parent.width*0.9
+        wrapMode: Text.WordWrap
+        onLinkActivated: Qt.openUrlExternally(link)
+        onLinkHovered: linker.text = link
+
+        MouseArea {
+            id: txtMA
+            anchors.fill: parent
+        }
+        text: i18n("Quote from <a href=\"http://doc.qt.io/qt-5/qml-color.html\">QML Colors</a>: You may enter a color by a SVG color name, such as \"red\", \"green\" or \"lightsteelblue\" or by a hexadecimal triplet or quad in the form \"#RRGGBB\" and \"#AARRGGBB\" respectively. For example, the color red corresponds to a triplet of \"#FF0000\" and a slightly transparent blue to a quad of \"#800000FF\".")
+    }
+    QtLayouts.RowLayout {
+        anchors.top: txt.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        Image {
+            source: "image://icon/internet-web-browser"
+            visible: linker.text.length
+        }
+        QtControls.Label {
+            QtLayouts.Layout.alignment: Qt.AlignVCenter
+            id: linker
             wrapMode: Text.WordWrap
-
-            MouseArea {
-                id: txtMA
-                anchors.fill: parent
-            }
-            text: i18n("Quote from <a href=\"http://doc.qt.io/qt-5/qml-color.html\">QML Colors</a>: You may enter a color by a SVG color name, such as \"red\", \"green\" or \"lightsteelblue\" or by a hexadecimal triplet or quad in the form \"#RRGGBB\" and \"#AARRGGBB\" respectively. For example, the color red corresponds to a triplet of \"#FF0000\" and a slightly transparent blue to a quad of \"#800000FF\".")
         }
-        QtLayouts.RowLayout {
-            anchors.top: txt.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-
-            PlasmaCore.IconItem {
-                source: "internet-web-browser.png"
-                visible: linker.text.length
-            }
-            QtControls.Label {
-                QtLayouts.Layout.alignment: Qt.AlignVCenter
-                id: linker
-                wrapMode: Text.WordWrap
-            }
-        }
-        states: State {
-            name: "cursor"; when: txt.hoveredLink.length > 0
-            PropertyChanges { target: txtMA; cursorShape: Qt.PointingHandCursor; }
-            PropertyChanges { target: txtMA; onClicked: Qt.openUrlExternally(txt.hoveredLink) }
-            PropertyChanges { target: linker; text: txt.hoveredLink }
-        }
+    }
 }

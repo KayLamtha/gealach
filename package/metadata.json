@@ -1,0 +1,33 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "koffeinfriedhof",
+                "Email": "koffeinfriedhof@gmail.com"
+            },
+            {
+                "Name": "Ryan McFadden",
+                "Email": "ryanskungfu@me.com"
+            }
+        ],
+        "Category": "Astronomy",
+        "Description": "Display moon phases for your location.",
+        "Description[de]": "Zeigen Sie Mondphasen für Ihren Standort an.",
+        "Description[fr]": "Affiche les phases de la lune pour votre emplacement.",
+        "Description[ga]": "céimeanna ghealach taispeáint ar do shuíomh.",
+        "Description[en]": "Display moon phases for your location.",
+        "Description[es]": "Muestra las fases lunares de tu ubicación.",
+        "Description[it]": "Visualizzazione le fasi lunari per la vostra posizione.",
+        "Icon": "preferences-system-time",
+        "Id": "org.koffeinfriedhof.gealach",
+        "Name": "Gealach",
+        "Version": "0.2.0",
+        "Website": "https://github.com/ChickenLegsOz/gealach"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API": "declarativeappletscript",
+    "EnabledByDefault": true,
+    "X-Plasma-DefaultSize": [100, 100],
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-MainScript": "ui/main.qml"
+}
