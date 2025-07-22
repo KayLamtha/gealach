@@ -16,39 +16,26 @@
  */
 
 import QtQuick 2.15
-import QtQuick.Layouts 1.15 as QtLayouts
 import QtQuick.Controls 2.15 as QtControls
-import org.kde.plasma.core as PlasmaCore
+import org.kde.kirigami 2.20 as Kirigami
 
 Item {
-    Text {
-        id: txt
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        wrapMode: Text.WordWrap
-        onLinkActivated: Qt.openUrlExternally(link)
-        onLinkHovered: linker.text = link
-
-        MouseArea {
-            id: txtMA
+    Rectangle {
+        anchors.fill: parent
+        color: Kirigami.Theme.backgroundColor
+        
+        Column {
             anchors.fill: parent
-        }
-        text: "<br /><h3>This page is dedicated to the earlier maintainers and creators of Luna and Luna II. Thank you for sharing your work!</h3><br /><br /><a href=\"mailto:dxtwjb@gmail.com\">Bill Binder</a> for porting the Luna QML plasmoid from Plasma 4 to Plasma 5.<br /><br /><a href=\"mailto:glad.deschrijver@gmail.com\">Glad Deschrijver</a> for maintaining Luna QML 2011-2013<br /><br />The JavaScript code is based on the C++ code of the original Luna plasmoid in the KDE Plasma Workspace. This C++ code is licensed as follows:<br />Copyright 1996 <a href=\"mailto:chris@speakeasy.org\">Christopher Osburn</a><br />Copyright 1998,2000 <a href=\"mailto:coolo@kde.org\">Stephan Kulow</a><br />Copyright 2008 by <a href=\"mailto:davide.bettio@kdemail.net\">Davide Bettio</a><br />licensed under the GNU GPL version 2 or later.<br /><br />The luna images are extracted from the luna SVG file created by:<br />Copyright 2009 Jose Alcala (project manager), Dan Gerhards (moon artwork), Jeremy M. Todaro (shadows and layout)<br />(available at <a href=\"http://kde-look.org/content/show.php/luna.svgz+(full+SVG+image)?content=106013\">http://kde-look.org/content/show.php/luna.svgz+(full+SVG+image)?content=106013</a> original available at <a href=\"http://www.public-domain-photos.com/free-cliparts/science/astronomy/the_moon_dan_gerhards_01-5094.htm\">http://www.public-domain-photos.com/free-cliparts/science/astronomy/the_moon_dan_gerhards_01-5094.htm</a>) released in the public domain<br /><br />"
-    }
-    QtLayouts.RowLayout {
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
+            anchors.margins: 8
+            spacing: 8
 
-        Image {
-            source: linker.text.substr(0,7) == "http://" ? "image://icon/internet-web-browser" : "image://icon/mail-message-new"
-            visible: linker.text.length
-        }
-        QtControls.Label {
-            QtLayouts.Layout.alignment: Qt.AlignVCenter
-            id: linker
-            wrapMode: Text.WordWrap
+            Text {
+                id: txt
+                color: Kirigami.Theme.textColor
+                wrapMode: Text.WordWrap
+                width: parent.width 
+                text: "<br /><h3>This page is dedicated to the earlier maintainers and creators of Luna and Luna II. Thank you for sharing your work!</h3><br /><br /><a href=\"mailto:dxtwjb@gmail.com\">Bill Binder</a> for porting the Luna QML plasmoid from Plasma 4 to Plasma 5.<br /><br /><a href=\"mailto:glad.deschrijver@gmail.com\">Glad Deschrijver</a> for maintaining Luna QML 2011-2013<br /><br />The JavaScript code is based on the C++ code of the original Luna plasmoid in the KDE Plasma Workspace. This C++ code is licensed as follows:<br />Copyright 1996 <a href=\"mailto:chris@speakeasy.org\">Christopher Osburn</a><br />Copyright 1998,2000 <a href=\"mailto:coolo@kde.org\">Stephan Kulow</a><br />Copyright 2008 by <a href=\"mailto:davide.bettio@kdemail.net\">Davide Bettio</a><br />licensed under the GNU GPL version 2 or later.<br /><br />The luna images are extracted from the luna SVG file created by:<br />Copyright 2009 Jose Alcala (project manager), Dan Gerhards (moon artwork), Jeremy M. Todaro (shadows and layout)<br />(available at <a href=\"http://kde-look.org/content/show.php/luna.svgz+(full+SVG+image)?content=106013\">http://kde-look.org/content/show.php/luna.svgz+(full+SVG+image)?content=106013</a> original available at <a href=\"http://www.public-domain-photos.com/free-cliparts/science/astronomy/the_moon_dan_gerhards_01-5094.htm\">http://www.public-domain-photos.com/free-cliparts/science/astronomy/the_moon_dan_gerhards_01-5094.htm</a>) released in the public domain<br /><br />"
+            }
         }
     }
 }
