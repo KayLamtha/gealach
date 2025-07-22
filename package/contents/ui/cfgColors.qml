@@ -16,7 +16,6 @@
  */
 
 import QtQuick 2.15
-import QtQuick.Dialogs
 import QtQuick.Layouts 1.15 as QtLayouts
 import QtQuick.Controls 2.15 as QtControls
 import org.kde.kirigami 2.20 as Kirigami
@@ -29,135 +28,158 @@ Item {
     property alias cfg_primaryFontColor:    _pri.color
     property alias cfg_secondaryFontColor:  _sec.color
 
-    ColorDialog {
-        id: colorDialog
-        property var current: _priField
-        property string name: ""
-
-        // i18n: Please choose color, e.g. Primary Font Color
-        title: i18n("Please choose %1").arg(name)
-        onAccepted: {
-            current.text=colorDialog.color
-        }
+    function safeColor(val) {
+        // Accepts valid hex or named color, else returns white
+        if (val && Qt.colorEqual(val, val)) return val;
+        return "#ffffff";
     }
 
     QtLayouts.GridLayout {
-        id: coll
-        columns: 3
+        columns: 4
 
-        QtControls.Label { text: i18n("Primary Font Color")}
+        QtControls.Label { text: i18n("Primary Font Color") }
         QtControls.TextField {
             id: _priField
-            onTextChanged: _pri.color=text
-            Component.onCompleted: text=cfg_primaryFontColor
+            onTextChanged: _pri.color = text
+            Component.onCompleted: text = cfg_primaryFontColor
+        }
+        Rectangle {
+            width: 24; height: 24
+            radius: 6
+            color: safeColor(_priField.text)
+            border.color: Kirigami.Theme.textColor
+            QtLayouts.Layout.alignment: Qt.AlignVCenter
         }
         QtControls.Button {
-            icon.name: "color-picker.png"
+            text: i18n("Pick")
             onClicked: {
-                colorDialog.current=_priField
-                colorDialog.name=_pri.text
-                colorDialog.color=_pri.color
-                colorDialog.visible=true
+                colorPickerPri.selectedColor = safeColor(_priField.text)
+                colorPickerPriPopup.open()
             }
         }
+        QtControls.Popup {
+            id: colorPickerPriPopup
+            modal: true
+            focus: true
+            width: 300
+            height: 220
+            parent: root
+            x: (parent.width - width) / 2
 
-        QtControls.Label { text: i18n("Secondary Font Color")}
+            ColorPicker {
+                id: colorPickerPri
+                pickerTitle: i18n("Select Primary Color")
+                anchors.fill: parent
+                visible: true
+                onColorPicked: {
+                    _priField.text = colorPickerPri.selectedColor
+                    colorPickerPriPopup.close()
+                }
+            }
+        }
+        
+        QtControls.Label { text: i18n("Secondary Font Color") }
         QtControls.TextField {
             id: _secField
-            onTextChanged: _sec.color=text
-            Component.onCompleted: text=cfg_secondaryFontColor
+            onTextChanged: _sec.color = text
+            Component.onCompleted: text = cfg_secondaryFontColor
+        }
+        Rectangle {
+            width: 24; height: 24
+            radius: 6
+            color: safeColor(_secField.text)
+            border.color: Kirigami.Theme.textColor
+            QtLayouts.Layout.alignment: Qt.AlignVCenter
         }
         QtControls.Button {
-            icon.name: "color-picker"
+            text: i18n("Pick")
             onClicked: {
-                colorDialog.current=_secField
-                colorDialog.name=_sec.text
-                colorDialog.color=_sec.color
-                colorDialog.visible=true
+                colorPickerSec.selectedColor = safeColor(_secField.text)
+                colorPickerSecPopup.open()
+            }
+        }
+        QtControls.Popup {
+            id: colorPickerSecPopup
+            modal: true
+            focus: true
+            width: 300
+            height: 220
+            parent: root
+            x: (parent.width - width) / 2
+
+            ColorPicker {
+                id: colorPickerSec
+                pickerTitle: i18n("Select Secondary Color")
+                visible: true
+                anchors.fill: parent
+                onColorPicked: {
+                    _secField.text = selectedColor
+                    colorPickerSecPopup.close()
+                }
             }
         }
 
-        QtControls.Label { id: _bgc; text: i18n("Background Color")}
+        QtControls.Label { text: i18n("Background Color") }
         QtControls.TextField {
             id: _bgcField
-            onTextChanged: _preview.color=text
-            Component.onCompleted: text=cfg_backgroundColor
+            onTextChanged: _preview.color = text
+            Component.onCompleted: text = cfg_backgroundColor
+        }
+        Rectangle {
+            width: 24; height: 24
+            radius: 6
+            color: safeColor(_bgcField.text)
+            border.color: Kirigami.Theme.textColor
+            QtLayouts.Layout.alignment: Qt.AlignVCenter
         }
         QtControls.Button {
-            icon.name: "color-picker"
+            text: i18n("Pick")
             onClicked: {
-                colorDialog.current=_bgcField
-                colorDialog.name=_bgc.text
-                colorDialog.color=_preview.color
-                colorDialog.visible=true
+                colorPickerBg.selectedColor = safeColor(_bgcField.text)
+                colorPickerBgPopup.open()
+            }
+        }
+        QtControls.Popup {
+            id: colorPickerBgPopup
+            modal: true
+            focus: true
+            width: 300
+            height: 220
+            parent: root
+            x: (parent.width - width) / 2
+
+            ColorPicker {
+                id: colorPickerBg
+                pickerTitle: i18n("Select Background Color")
+                visible: true
+                anchors.fill: parent
+                onColorPicked: {
+                    _bgcField.text = selectedColor
+                    colorPickerBgPopup.close()
+                }
             }
         }
 
-        QtControls.Label { text: i18n("Preview")}
+        QtControls.Label { text: i18n("Preview") }
         Rectangle {
             id: _preview
-            height: _pri.height*3
-            width: _pri.width+_sec.width+Kirigami.Units.smallSpacing*2
+            height: 60
+            width: 200
+            color: _bgcField.text
             QtLayouts.Layout.columnSpan: 3
 
             Column {
                 QtControls.Label {
-                    id: _pri;
+                    id: _pri
                     text: i18n("Primary Font Color")
+                    color: _priField.text
                 }
                 QtControls.Label {
-                    id: _sec;
+                    id: _sec
                     text: i18n("Secondary Font Color")
+                    color: _secField.text
                 }
             }
-        }
-        QtControls.Button {
-            // i18n: button text to load colors of current theme
-            text: i18n("Set Theme Colors")
-            onClicked: {
-                _priField.text=PlasmaCore.ColorScope.highlightColor
-                _secField.text=PlasmaCore.ColorScope.textColor
-                _bgcField.text=PlasmaCore.ColorScope.backgroundColor
-            }
-        }
-        QtControls.Button {
-            id: bt
-            QtLayouts.Layout.columnSpan: 3
-            // i18n: Button to show/hide explanation if color codes, e.g. "red" or "#FF0000"
-            text: i18n("Show/Hide Explanation")
-            checkable: true
-        }
-
-    }
-
-    Text {
-        visible: bt.checked
-        id: txt
-        anchors.top: coll.bottom
-        width: parent.width*0.9
-        wrapMode: Text.WordWrap
-        onLinkActivated: Qt.openUrlExternally(link)
-        onLinkHovered: linker.text = link
-
-        MouseArea {
-            id: txtMA
-            anchors.fill: parent
-        }
-        text: i18n("Quote from <a href=\"http://doc.qt.io/qt-5/qml-color.html\">QML Colors</a>: You may enter a color by a SVG color name, such as \"red\", \"green\" or \"lightsteelblue\" or by a hexadecimal triplet or quad in the form \"#RRGGBB\" and \"#AARRGGBB\" respectively. For example, the color red corresponds to a triplet of \"#FF0000\" and a slightly transparent blue to a quad of \"#800000FF\".")
-    }
-    QtLayouts.RowLayout {
-        anchors.top: txt.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-
-        Image {
-            source: "image://icon/internet-web-browser"
-            visible: linker.text.length
-        }
-        QtControls.Label {
-            QtLayouts.Layout.alignment: Qt.AlignVCenter
-            id: linker
-            wrapMode: Text.WordWrap
         }
     }
 }
