@@ -20,6 +20,7 @@ import QtQuick.Layouts 1.15 as QtLayouts
 import QtQuick.Controls 2.15 as QtControls
 import org.kde.kirigami 2.20 as Kirigami
 import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
 
 import "../code/phases.js" as Phases
 import "../code/lunacalc.js" as LunaCalc
@@ -122,7 +123,7 @@ PlasmoidItem {
 
     /** PLASMOID DETAILS **/
     preferredRepresentation: compactRepresentation
-
+    Plasmoid.backgroundHints: (showBackground ? PlasmaCore.Types.DefaultBackground : PlasmaCore.Types.NoBackground)
     toolTipMainText: currentPhase.text
     toolTipSubText: currentPhase.subText
 
