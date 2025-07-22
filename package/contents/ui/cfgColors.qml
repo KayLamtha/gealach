@@ -19,7 +19,6 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.15 as QtLayouts
 import QtQuick.Controls 2.15 as QtControls
 import org.kde.kirigami 2.20 as Kirigami
-import org.kde.plasma.core as PlasmaCore
 
 Item {
     id: root

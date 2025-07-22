@@ -19,7 +19,6 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.15 as QtLayouts
 import QtQuick.Controls 2.15 as QtControls
 import org.kde.kirigami 2.20 as Kirigami
-import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components 3.0 as PlasmaComponents
 
 import "../code/phases.js" as Phases
@@ -42,7 +41,6 @@ QtLayouts.ColumnLayout {
 
             return Qt.formatDateTime(str, dateFormat)
     }
-
 
     /** ACTIONS **/
     QtControls.Action {

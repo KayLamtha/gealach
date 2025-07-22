@@ -19,8 +19,6 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.15 as QtLayouts
 import QtQuick.Controls 2.15 as QtControls
 import org.kde.kirigami 2.20 as Kirigami
-import org.kde.plasma.core as PlasmaCore
-import org.kde.plasma.components 3.0 as PlasmaComponents
 import org.kde.plasma.plasmoid
 
 import "../code/phases.js" as Phases
@@ -88,9 +86,9 @@ PlasmoidItem {
                     return {number: 14 + daysFromFullMoon, text: i18n("Waning Gibbous"),
                         subText: i18np("%1 day since Full Moon", "%1 days since Full Moon", daysFromFullMoon)};
 
-                        // this should never happen:
-                        console.log("We cannot count :-(");
-                        return {number: -1, text: ""};
+        // this should never happen:
+        console.log("We cannot count :-(");
+        return {number: -1, text: ""};
     }
 
     /** CONFIGURATION **/
@@ -123,7 +121,6 @@ PlasmoidItem {
     }
 
     /** PLASMOID DETAILS **/
-    //backgroundHints: showBackground ? "DefaultBackground" : "NoBackground"
     preferredRepresentation: compactRepresentation
 
     toolTipMainText: currentPhase.text
@@ -133,7 +130,6 @@ PlasmoidItem {
     compactRepresentation: Component {
         MouseArea {
             id: compactRoot
-
             onClicked: root.expanded = !root.expanded
 
             Image {
