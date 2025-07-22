@@ -2,12 +2,12 @@
     "KPlugin": {
         "Authors": [
             {
-                "Name": "koffeinfriedhof",
-                "Email": "koffeinfriedhof@gmail.com"
-            },
-            {
                 "Name": "Ryan McFadden",
                 "Email": "ryanskungfu@me.com"
+            },
+            {
+                "Name": "koffeinfriedhof",
+                "Email": "koffeinfriedhof@gmail.com"
             }
         ],
         "Category": "Astronomy",

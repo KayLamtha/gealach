@@ -151,8 +151,8 @@ PlasmoidItem {
     /** FULL **/
     fullRepresentation: Rectangle {
         id: iAmJustHereForCustomBackgroundColor
-        QtLayouts.Layout.preferredWidth: fullRoot.QtLayouts.Layout.minimumWidth + Kirigami.Units.smallSpacing
-        QtLayouts.Layout.preferredHeight: fullRoot.QtLayouts.Layout.minimumHeight + Kirigami.Units.smallSpacing
+        QtLayouts.Layout.preferredWidth: fullRoot.QtLayouts.Layout.minimumWidth + Kirigami.Units.largeSpacing
+        QtLayouts.Layout.preferredHeight: fullRoot.QtLayouts.Layout.minimumHeight + Kirigami.Units.largeSpacing
         color: backgroundColor
         PhasesPopup{
             id: fullRoot
